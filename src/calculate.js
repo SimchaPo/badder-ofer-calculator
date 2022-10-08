@@ -1,7 +1,7 @@
 export const calculate = (localResults) => {
-  // console.log(localResults);
   // total good votes
   let a = localResults.reduce((a, b) => a + b.amount, 0);
+  // console.log(a);
   // achuz hachsaima
   let b = (a * 3.25) / 100;
   // didnt pass
@@ -13,6 +13,7 @@ export const calculate = (localResults) => {
     );
   // total pass
   let d = a - c;
+
   // moded klali
   let e = d / 120;
 
@@ -20,7 +21,12 @@ export const calculate = (localResults) => {
   let g = f.map((fn) => (fn > b ? Math.floor(fn / e) : 0));
 
   localResults = localResults.map((lres) => {
-    return { ...lres, g: lres.amount > b ? Math.floor(lres.amount / e) : 0 };
+    return {
+      ...lres,
+      g: lres.amount > b ? Math.floor(lres.amount / e) : 0,
+      totalPercent: lres.amount / a || 0,
+      beforeBadderOfer: lres.amount > b ? Math.floor(lres.amount / e) : 0,
+    };
   });
 
   let h =
@@ -81,9 +87,9 @@ export const calculate = (localResults) => {
       let lr1 = localResults.find((lr) => lr.letters === oc.letters[0]);
       let lr2 = localResults.find((lr) => lr.letters === oc.letters[1]);
 
-      let modedA = oc.f / oc.g;
-      lr1.g = Math.floor(lr1.amount / modedA);
-      lr2.g = Math.floor(lr2.amount / modedA);
+      let modedA = oc.f / oc.g || 0;
+      lr1.g = Math.floor(lr1.amount / modedA) || 0;
+      lr2.g = Math.floor(lr2.amount / modedA) || 0;
 
       while (lr1.g + lr2.g < oc.g) {
         let moded1 = Math.floor(lr1.amount / (lr1.g + 1));

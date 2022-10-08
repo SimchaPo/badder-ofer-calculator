@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.ant-table-container {
+  overflow-x: auto;
+}
+
+.ant-row {
+  padding: 0.5rem;
+}
+
+.form-item-row .ant-row {
+  padding: 0 !important;
+}
