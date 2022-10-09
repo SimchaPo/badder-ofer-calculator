@@ -17,7 +17,7 @@ const EditableCell = ({
 }) => {
   const inputNode =
     inputType === "number" ? (
-      <InputNumber />
+      <InputNumber min={0} />
     ) : inputType === "select" ? (
       <Select showSearch style={{ minWidth: "100px" }}>
         <Option value={"empty"}>ללא עודפים</Option>

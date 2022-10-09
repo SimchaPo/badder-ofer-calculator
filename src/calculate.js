@@ -1,6 +1,13 @@
 export const calculate = (localResults) => {
   // total good votes
   let a = localResults.reduce((a, b) => a + b.amount, 0);
+  if (a <= 0) {
+    localResults = localResults.map((lr) => {
+      return { ...lr, total: 0, totalPercent: 0, beforeBadderOfer: 0 };
+    });
+
+    return localResults;
+  }
   // console.log(a);
   // achuz hachsaima
   let b = (a * 3.25) / 100;
