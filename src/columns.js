@@ -9,6 +9,7 @@ export const editableTableColumns = [
     title: "מספר הקולות",
     dataIndex: "amount",
     key: "amount",
+    render: (value) => value.toLocaleString(),
     minWidth: 100,
     editable: true,
   },
@@ -43,6 +44,7 @@ export const columns = [
     title: "מספר הקולות",
     dataIndex: "amount",
     key: "amount",
+    render: (value) => value.toLocaleString(),
   },
   {
     title: "עודפים",
@@ -52,34 +54,30 @@ export const columns = [
 
   {
     title: "ללא הסכם עודפים",
-    // dataIndex: "totalWithOut",
+    dataIndex: "totalWithOut",
     key: "totalWithOut",
-    render: (record) => {
+    onCell: (record) => {
       let color;
       if (record.total !== record.totalWithOut) {
         color =
-          record.total > record.totalWithOut ? "mediumspringgreen" : "red";
+          record.total > record.totalWithOut ? "mediumspringgreen" : "tomato";
       }
-      return (
-        <span style={{ backgroundColor: color }}>{record.totalWithOut}</span>
-      );
+      return { style: { background: color } };
     },
   },
   {
     title: "לפני בדר עופר",
-    // dataIndex: "totalWithOut",
     key: "beforeBadderOfer",
-    render: (record) => {
+    dataIndex: "beforeBadderOfer",
+    onCell: (record) => {
       let color;
       if (record.total !== record.beforeBadderOfer) {
         color =
-          record.total > record.beforeBadderOfer ? "mediumspringgreen" : "red";
+          record.total > record.beforeBadderOfer
+            ? "mediumspringgreen"
+            : "tomato";
       }
-      return (
-        <span style={{ backgroundColor: color }}>
-          {record.beforeBadderOfer}
-        </span>
-      );
+      return { style: { background: color } };
     },
   },
   {

@@ -56,29 +56,27 @@ export const calculate = (localResults) => {
           letters,
           f,
           g,
-          i: Math.floor(f / (g + 1)),
+          i: f / (g + 1),
         });
       }
       return previousValue;
     }, []);
-
-  // console.log(odafimCal);
+  let highestIndex;
+  let highestI;
   for (let index = 0; index < h; index++) {
-    let highestIndex = 0;
-    let highestI = 0;
+    highestIndex = 0;
+    highestI = 0;
     odafimCal.forEach((oc, i) => {
-      if (oc.i > highestI) {
+      if (oc.i >= highestI) {
         highestIndex = i;
         highestI = oc.i;
       }
     });
 
     ++odafimCal[highestIndex].g;
-    odafimCal[highestIndex].i = Math.floor(
-      odafimCal[highestIndex].f / (odafimCal[highestIndex].g + 1)
-    );
+    odafimCal[highestIndex].i =
+      odafimCal[highestIndex].f / (odafimCal[highestIndex].g + 1);
   }
-
   odafimCal
     .filter((oc) => oc.letters.length === 2)
     .forEach((oc) => {

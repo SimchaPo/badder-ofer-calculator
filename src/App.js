@@ -120,11 +120,11 @@ function App() {
                     onChange={onChangeResults}
                     style={{ textAlign: "center" }}
                   >
-                    <Radio value={1}>הכנסת ה-25</Radio>
                     <Radio value={2}>הכנסת ה-21</Radio>
                     <Radio value={3}>הכנסת ה-22</Radio>
                     <Radio value={4}>הכנסת ה-23</Radio>
                     <Radio value={5}>הכנסת ה-24</Radio>
+                    <Radio value={1}>הכנסת ה-25</Radio>
                   </Radio.Group>
                 </Col>
               </Row>
