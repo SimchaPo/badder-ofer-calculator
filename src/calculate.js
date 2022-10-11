@@ -71,9 +71,12 @@ export const calculate = (localResults) => {
   let highestIndex;
   let highestI;
   for (let index = 0; index < h; index++) {
+    let logData = [],
+      minFar = Infinity;
     highestIndex = 0;
     highestI = 0;
     odafimCal.forEach((oc, i) => {
+      logData.push({ letters: oc.letters, g: oc.g, currenti: oc.i });
       if (oc.i >= highestI) {
         highestIndex = i;
         highestI = oc.i;
@@ -83,7 +86,26 @@ export const calculate = (localResults) => {
     ++odafimCal[highestIndex].g;
     odafimCal[highestIndex].i =
       odafimCal[highestIndex].f / (odafimCal[highestIndex].g + 1);
+    console.log(
+      logData
+        .sort((a, b) => b.currenti - a.currenti)
+        .map((a) => {
+          let farnes = (highestI - a.currenti) * (a.g + 1);
+          if (farnes !== 0) {
+            minFar = Math.min(farnes, minFar);
+          }
+          return { ...a, farnes };
+        }),
+      odafimCal[highestIndex].letters,
+      highestI,
+      minFar
+    );
   }
+  console.log(
+    odafimCal.map((oc) => {
+      return { let: oc.letters, g: oc.g };
+    })
+  );
   odafimCal
     .filter((oc) => oc.letters.length === 2)
     .forEach((oc) => {

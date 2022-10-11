@@ -1,5 +1,6 @@
 import "./App.css";
 import "antd/dist/antd.min.css";
+import { useEffect, useState } from "react";
 import {
   Table,
   ConfigProvider,
@@ -9,72 +10,46 @@ import {
   Spin,
   Radio,
   Button,
+  Card,
 } from "antd";
-import Grid from "antd/lib/card/Grid";
-import { results as results21 } from "./results21";
-import { results as results22 } from "./results22";
-import { results as results23 } from "./results23";
-import { results as results24 } from "./results24";
-import { results as results25 } from "./results25";
 import { columns } from "./columns";
 import { calculate } from "./calculate";
-import { useEffect, useState } from "react";
 import EditableTable from "./EditableTable";
 const { Title } = Typography;
+const { Grid } = Card;
 
 function App() {
-  const [results, setResults] = useState(
-    results25.map((r) => {
-      return { ...r, key: r.letters };
-    })
-  );
+  const [results, setResults] = useState([]);
   const [editTable, setEditTable] = useState(false);
   const [calculatedResults, setCalculatedResults] = useState([]);
+  const [originCalculatedResults, setOriginCalculatedResults] = useState([]);
+  const [radioValue, setRadioValue] = useState(25);
+  const [changeOrigin, setChangeOrigin] = useState(true);
 
-  const onChangeResults = (e) => {
-    let value = e?.target?.value;
-    switch (value) {
-      case 1:
-        setResults(
-          results25.map((r) => {
-            return { ...r, key: r.letters };
-          })
-        );
+  useEffect(() => {
+    switch (radioValue) {
+      case 21:
+        import("./results21").then(handleSetResult);
         break;
-      case 2:
-        setResults(
-          results21.map((r) => {
-            return { ...r, key: r.letters };
-          })
-        );
+      case 22:
+        import("./results22").then(handleSetResult);
         break;
-      case 3:
-        setResults(
-          results22.map((r) => {
-            return { ...r, key: r.letters };
-          })
-        );
+      case 23:
+        import("./results23").then(handleSetResult);
         break;
-      case 4:
-        setResults(
-          results23.map((r) => {
-            return { ...r, key: r.letters };
-          })
-        );
+      case 24:
+        import("./results24").then(handleSetResult);
         break;
-      case 5:
-        setResults(
-          results24.map((r) => {
-            return { ...r, key: r.letters };
-          })
-        );
+      case 25:
+        import("./results25").then(handleSetResult);
         break;
       default:
         break;
     }
-  };
+  }, [radioValue]);
 
   useEffect(() => {
+    if (!results?.length > 0) return;
     let firstCalculatedResults = calculate(results);
     let resWithOutOdafim = calculate(
       results.map((r) => {
@@ -84,12 +59,28 @@ function App() {
       })
     );
 
-    setCalculatedResults(
-      firstCalculatedResults.map((r, index) => {
-        return { ...r, totalWithOut: resWithOutOdafim[index].total };
+    firstCalculatedResults = firstCalculatedResults.map((r, index) => {
+      return { ...r, totalWithOut: resWithOutOdafim[index].total };
+    });
+
+    setCalculatedResults(firstCalculatedResults);
+    changeOrigin && setOriginCalculatedResults(firstCalculatedResults);
+    setChangeOrigin(false);
+  }, [results]);
+
+  const handleSetResult = ({ results }) => {
+    setResults(
+      results.map((r) => {
+        return { ...r, key: r.letters };
       })
     );
-  }, [results]);
+  };
+
+  const onChangeResults = (e) => {
+    setChangeOrigin(true);
+    let value = e?.target?.value;
+    setRadioValue(value);
+  };
 
   return (
     <Grid
@@ -116,15 +107,16 @@ function App() {
                 <Col>
                   <Radio.Group
                     name="radiogroup"
-                    defaultValue={1}
+                    disabled={editTable}
+                    value={radioValue}
                     onChange={onChangeResults}
                     style={{ textAlign: "center" }}
                   >
-                    <Radio value={2}>הכנסת ה-21</Radio>
-                    <Radio value={3}>הכנסת ה-22</Radio>
-                    <Radio value={4}>הכנסת ה-23</Radio>
-                    <Radio value={5}>הכנסת ה-24</Radio>
-                    <Radio value={1}>הכנסת ה-25</Radio>
+                    <Radio value={21}>הכנסת ה-21</Radio>
+                    <Radio value={22}>הכנסת ה-22</Radio>
+                    <Radio value={23}>הכנסת ה-23</Radio>
+                    <Radio value={24}>הכנסת ה-24</Radio>
+                    <Radio value={25}>הכנסת ה-25</Radio>
                   </Radio.Group>
                 </Col>
               </Row>
@@ -143,7 +135,12 @@ function App() {
                 ) : (
                   <Col>
                     <Table
-                      dataSource={calculatedResults}
+                      dataSource={calculatedResults.map((cr) => {
+                        const origin = originCalculatedResults.find(
+                          (ocr) => ocr.letters === cr.letters
+                        );
+                        return { ...cr, origin };
+                      })}
                       columns={columns}
                       pagination={false}
                       rowKey={(r) => r.letters}
@@ -155,6 +152,28 @@ function App() {
           )}
         </Col>
       </Row>
+      {/* <Row>
+        <Col>
+          <iframe
+            src="https://www.linkedin.com/embed/feed/update/urn:li:share:6984793202906050560"
+            height="847"
+            width="504"
+            frameBorder="0"
+            allowFullScreen=""
+            title="Embedded post"
+          ></iframe>
+        </Col>
+        <Col>
+          <iframe
+            src="https://www.linkedin.com/embed/feed/update/urn:li:share:6972615324735008768"
+            height="690"
+            width="504"
+            frameBorder="0"
+            allowFullScreen=""
+            title="Embedded post"
+          ></iframe>
+        </Col>
+      </Row> */}
     </Grid>
   );
 }

@@ -1,6 +1,5 @@
 import { Form, Input, InputNumber, Table, Select } from "antd";
 import React, { useState } from "react";
-import { results as results25 } from "./results25";
 import { editableTableColumns } from "./columns";
 
 const { Option } = Select;
