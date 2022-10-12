@@ -23,7 +23,7 @@ function App() {
   const [editTable, setEditTable] = useState(false);
   const [calculatedResults, setCalculatedResults] = useState([]);
   const [originCalculatedResults, setOriginCalculatedResults] = useState([]);
-  const [radioValue, setRadioValue] = useState(25);
+  const [radioValue, setRadioValue] = useState(24);
   const [changeOrigin, setChangeOrigin] = useState(true);
 
   useEffect(() => {
@@ -92,7 +92,7 @@ function App() {
       <Row>
         <Col span={24}>
           <Title mark level={1} style={{ textAlign: "center" }}>
-            שמחה'ס מחשבון בדר עופר
+            מחשבון מנדטים - בדר עופר
           </Title>
         </Col>
       </Row>

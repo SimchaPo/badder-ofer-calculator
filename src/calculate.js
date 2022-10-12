@@ -8,7 +8,6 @@ export const calculate = (localResults) => {
 
     return localResults;
   }
-  // console.log(a);
   // achuz hachsaima
   let b = (a * 3.25) / 100;
   // didnt pass
@@ -68,44 +67,26 @@ export const calculate = (localResults) => {
       }
       return previousValue;
     }, []);
-  let highestIndex;
-  let highestI;
+
   for (let index = 0; index < h; index++) {
-    let logData = [],
-      minFar = Infinity;
-    highestIndex = 0;
-    highestI = 0;
-    odafimCal.forEach((oc, i) => {
-      logData.push({ letters: oc.letters, g: oc.g, currenti: oc.i });
+    let highestIndex = 0;
+    let highestI = 0;
+    for (let i = 0; i < odafimCal.length; i++) {
+      const oc = odafimCal[i];
       if (oc.i >= highestI) {
         highestIndex = i;
         highestI = oc.i;
       }
-    });
+    }
 
     ++odafimCal[highestIndex].g;
     odafimCal[highestIndex].i =
       odafimCal[highestIndex].f / (odafimCal[highestIndex].g + 1);
-    console.log(
-      logData
-        .sort((a, b) => b.currenti - a.currenti)
-        .map((a) => {
-          let farnes = (highestI - a.currenti) * (a.g + 1);
-          if (farnes !== 0) {
-            minFar = Math.min(farnes, minFar);
-          }
-          return { ...a, farnes };
-        }),
-      odafimCal[highestIndex].letters,
-      highestI,
-      minFar
-    );
+    odafimCal = odafimCal.map((oc) => {
+      return { ...oc, farnes: (highestI - oc.i) * (oc.g + 1) };
+    });
   }
-  console.log(
-    odafimCal.map((oc) => {
-      return { let: oc.letters, g: oc.g };
-    })
-  );
+
   odafimCal
     .filter((oc) => oc.letters.length === 2)
     .forEach((oc) => {
@@ -118,11 +99,26 @@ export const calculate = (localResults) => {
       lr1.g = Math.floor(lr1.amount / modedA) || 0;
       lr2.g = Math.floor(lr2.amount / modedA) || 0;
 
+      let moded1 = lr1.amount / (lr1.g + 1) || 0;
+      let moded2 = lr2.amount / (lr2.g + 1) || 0;
+
       while (lr1.g + lr2.g < oc.g) {
-        let moded1 = Math.floor(lr1.amount / (lr1.g + 1));
-        let moded2 = Math.floor(lr2.amount / (lr2.g + 1));
-        if (moded1 > moded2) ++lr1.g;
-        else ++lr2.g;
+        console.log(oc.g - lr1.g - lr2.g);
+        if (moded1 > moded2) {
+          ++lr1.g;
+          lr2.farnes = Math.floor((moded1 - moded2) * (lr2.g + 1) + 1);
+          moded1 = lr1.amount / (lr1.g + 1) || 0;
+          lr1.farnes = Math.floor(
+            Math.max(oc.farnes, (moded2 - moded1) * (lr1.g + 1)) + 1
+          );
+        } else {
+          ++lr2.g;
+          lr1.farnes = Math.floor((moded2 - moded1) * (lr1.g + 1) + 1);
+          moded2 = lr2.amount / (lr2.g + 1) || 0;
+          lr2.farnes = Math.floor(
+            Math.max(oc.farnes, (moded1 - moded2) * (lr2.g + 1)) + 1
+          );
+        }
       }
 
       localResults[lr1Index] = lr1;
@@ -135,8 +131,15 @@ export const calculate = (localResults) => {
       let lr1Index = localResults.find((lr) => lr.letters === oc.letters[0]);
       let lr1 = localResults.find((lr) => lr.letters === oc.letters[0]);
       lr1.g = oc.g;
+      lr1.farnes = Math.floor(oc.farnes + 1);
       localResults[lr1Index] = lr1;
     });
+
+  // localResults
+  //   .filter((res) => res.amount < b)
+  //   .forEach((res) => {
+  //     console.log(res.letters, (3.25 / 100) * (a - res.amount));
+  //   });
 
   localResults = localResults.map((lr) => {
     let total = lr.g;

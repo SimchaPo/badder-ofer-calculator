@@ -77,6 +77,11 @@ export const columns = [
     width: 25,
   },
   {
+    title: "מרחק מהמנדט הבא",
+    dataIndex: "farnes",
+    key: "farnes",
+  },
+  {
     title: "הסכם עודפים",
     key: "odafim",
     render: (record) => {
