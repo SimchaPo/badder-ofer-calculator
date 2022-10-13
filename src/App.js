@@ -11,12 +11,14 @@ import {
   Radio,
   Button,
   Card,
+  Collapse,
 } from "antd";
 import { columns } from "./columns";
 import { calculate } from "./calculate";
 import EditableTable from "./EditableTable";
 const { Title } = Typography;
 const { Grid } = Card;
+const { Panel } = Collapse;
 
 function App() {
   const [results, setResults] = useState([]);
@@ -134,6 +136,48 @@ function App() {
                   </Col>
                 ) : (
                   <Col>
+                    <Collapse defaultActiveKey={["1"]}>
+                      <Panel header="מקרא לטבלה" key="1">
+                        <p>אותיות - האותיות המייצגות את המפלגה בפתק הקלפי</p>
+                        <p>שם - השם הרשמי של המפלגה</p>
+                        <p>
+                          אחוז(*) - אחוז הקולות אותה המפלגה קיבלת מסך כל הקולות
+                          הכשרים
+                        </p>
+                        <p>קולות(*) - מספר הקולות שקיבלה המפלגה</p>
+                        <p>
+                          הסכם(*) - אותיות המפלגה עמה חתמה המפלגה על הסכם עודפים
+                        </p>
+                        <p>
+                          ללא הסכם(*)(**) - כמות המנדטים אותה הייתה המפלגה מקבלת
+                          במידה ואף מפלגה לא הייתה חותמת על הסכם עודפים
+                        </p>
+                        <p>
+                          לפני בדר עופר(*)(**) - מספר המנדטים אותה הייתה כל
+                          מפלגה מקבלת לפני חלוקת השארית בהתאם לנוסחת בדר עופר
+                        </p>
+                        <p>
+                          מרחק - המרחק המנימלי של קולות הנצרך למפלגה על מנת לקבל
+                          מנדט נוסף (כרגע לא מדויק במקרי קצה מסוימים)
+                        </p>
+                        <p>מנדטים(*) - מספר המנדטים הסופי אותה קיבלה המפלגה</p>
+                        <br />
+                        <p>(*)</p>
+                        <p>
+                          הנתונים המופיעים בסוגריים משקפים את השינוי מהנתון
+                          המקורי בטבלה זו
+                        </p>
+                        <p>(**)</p>
+                        <p>
+                          רקע ירוק - המפלגה הרוויחה מהסכמי העודפים/נוסחת בדר
+                          עופר
+                        </p>
+                        <p>
+                          רקע אדום - המפלגה הפסדיה מהסכמי העודפים/נוסחת בדר עופר
+                        </p>
+                      </Panel>
+                    </Collapse>
+                    <br />
                     <Table
                       dataSource={calculatedResults.map((cr) => {
                         const origin = originCalculatedResults.find(

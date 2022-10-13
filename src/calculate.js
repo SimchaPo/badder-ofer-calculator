@@ -103,17 +103,31 @@ export const calculate = (localResults) => {
       let moded2 = lr2.amount / (lr2.g + 1) || 0;
 
       while (lr1.g + lr2.g < oc.g) {
-        console.log(oc.g - lr1.g - lr2.g);
         if (moded1 > moded2) {
           ++lr1.g;
-          lr2.farnes = Math.floor((moded1 - moded2) * (lr2.g + 1) + 1);
+          let f1 = (moded1 - moded2) * (lr2.g + 1);
+          let f2 = (lr1.amount / (lr1.g + 1) - moded2) * (lr2.g + 1);
+          console.log(oc.letters, oc.farnes, f1, f2);
+          if (f1 < oc.farnes) {
+            lr2.farnes = Math.floor(f1 + 1);
+          } else {
+            lr2.farnes = Math.floor(Math.max(oc.farnes, f2) + 1);
+          }
           moded1 = lr1.amount / (lr1.g + 1) || 0;
           lr1.farnes = Math.floor(
             Math.max(oc.farnes, (moded2 - moded1) * (lr1.g + 1)) + 1
           );
         } else {
           ++lr2.g;
-          lr1.farnes = Math.floor((moded2 - moded1) * (lr1.g + 1) + 1);
+          let f1 = (moded2 - moded1) * (lr1.g + 1);
+          let f2 = (lr2.amount / (lr2.g + 1) - moded1) * (lr1.g + 1);
+          console.log(oc.letters, oc.farnes, f1, f2);
+          if (f1 < oc.farnes) {
+            lr1.farnes = Math.floor(f1 + 1);
+          } else {
+            lr1.farnes = Math.floor(Math.max(oc.farnes, f2) + 1);
+          }
+
           moded2 = lr2.amount / (lr2.g + 1) || 0;
           lr2.farnes = Math.floor(
             Math.max(oc.farnes, (moded1 - moded2) * (lr2.g + 1)) + 1

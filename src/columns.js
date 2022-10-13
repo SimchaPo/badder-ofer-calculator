@@ -24,14 +24,14 @@ export const editableTableColumns = [
 
 export const columns = [
   {
-    title: "אותיות הרשימה",
+    title: "אותיות",
     dataIndex: "letters",
     key: "letters",
     fixed: "left",
-    width: 10,
+    // width: 10,
   },
   {
-    title: "שם הרשימה",
+    title: "שם",
     dataIndex: "name",
     key: "name",
   },
@@ -55,7 +55,7 @@ export const columns = [
         </>
       );
     },
-    width: 15,
+    // width: 15,
   },
   {
     title: "קולות",
@@ -74,15 +74,10 @@ export const columns = [
         </>
       );
     },
-    width: 25,
+    // width: 25,
   },
   {
-    title: "מרחק מהמנדט הבא",
-    dataIndex: "farnes",
-    key: "farnes",
-  },
-  {
-    title: "הסכם עודפים",
+    title: "הסכם",
     key: "odafim",
     render: (record) => {
       if (record.odafim === record.origin.odafim) return record.odafim;
@@ -98,11 +93,11 @@ export const columns = [
         </>
       );
     },
-    width: 10,
+    // width: 10,
   },
 
   {
-    title: "תוצאות ללא הסכמי עודפים",
+    title: "ללא הסכם",
     key: "totalWithOut",
     onCell: (record) => {
       let color;
@@ -126,7 +121,7 @@ export const columns = [
         </>
       );
     },
-    width: 15,
+    // width: 15,
   },
   {
     title: "לפני בדר עופר",
@@ -155,7 +150,12 @@ export const columns = [
         </>
       );
     },
-    width: 15,
+    // width: 15,
+  },
+  {
+    title: "מרחק",
+    dataIndex: "farnes",
+    key: "farnes",
   },
   {
     title: "מנדטים",
