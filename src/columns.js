@@ -6,6 +6,11 @@ export const editableTableColumns = [
     minWidth: 80,
   },
   {
+    title: "שם",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
     title: "מספר הקולות",
     dataIndex: "amount",
     key: "amount",

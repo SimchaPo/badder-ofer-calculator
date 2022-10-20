@@ -92,6 +92,15 @@ function App() {
         backgroundColor: "#f0fff0",
       }}
     >
+      <a
+        href="https://web.whatsapp.com/send?text= Please Visit http://ad-test.easygov.co.in/PanAdvertisement"
+        rel="nofollow noopener"
+        target="_blank"
+        className="share-icon"
+      >
+        <img src="/img/share-icon.png" style={{ height: "36px" }} />
+        Share via Whatsapp
+      </a>
       <Row>
         <Col span={24}>
           <Title mark level={1} style={{ textAlign: "center" }}>
@@ -139,13 +148,18 @@ function App() {
                   <Col>
                     <Explanation />
                     <br />
+                    <p className="showOnlySmallScreens">
+                      ניתו לגלול את הטבלה ימינה ושמאלה עבור נתונים נוספים
+                    </p>
                     <Table
-                      dataSource={calculatedResults.map((cr) => {
-                        const origin = originCalculatedResults.find(
-                          (ocr) => ocr.letters === cr.letters
-                        );
-                        return { ...cr, origin };
-                      })}
+                      dataSource={calculatedResults
+                        .map((cr) => {
+                          const origin = originCalculatedResults.find(
+                            (ocr) => ocr.letters === cr.letters
+                          );
+                          return { ...cr, origin };
+                        })
+                        .sort((cra, crb) => crb.amount - cra.amount)}
                       columns={columns}
                       pagination={false}
                       rowKey={(r) => r.letters}

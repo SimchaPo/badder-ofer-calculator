@@ -57,13 +57,6 @@ export const results = [
     amount: 0,
   },
   {
-    letters: "זנ",
-    name: "כח להשפיע בראשות בני אלבז",
-    mandatim: 0,
-    percent: "0%",
-    amount: 0,
-  },
-  {
     letters: "זץ",
     name: "צומת בראשות משה גרין דרכו של רפול",
     mandatim: 0,

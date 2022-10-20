@@ -13,3 +13,9 @@
 .form-item-row .ant-row {
   padding: 0 !important;
 }
+
+@media only screen and (min-width: 900px) {
+  .showOnlySmallScreens {
+    display: none;
+  }
+}
