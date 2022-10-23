@@ -12,11 +12,21 @@ import {
   Button,
   Card,
   Collapse,
+  Space,
 } from "antd";
 import { columns } from "./columns";
 import { calculate } from "./calculate";
 import EditableTable from "./EditableTable";
 import Explanation from "./Explanation";
+import {
+  WhatsappShareButton,
+  WhatsappIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  TelegramShareButton,
+  TelegramIcon,
+} from "react-share";
+
 const { Title } = Typography;
 const { Grid } = Card;
 const { Panel } = Collapse;
@@ -92,21 +102,40 @@ function App() {
         backgroundColor: "#f0fff0",
       }}
     >
-      <a
-        href="https://web.whatsapp.com/send?text= Please Visit http://ad-test.easygov.co.in/PanAdvertisement"
-        rel="nofollow noopener"
-        target="_blank"
-        className="share-icon"
-      >
-        <img src="/img/share-icon.png" style={{ height: "36px" }} />
-        Share via Whatsapp
-      </a>
       <Row>
         <Col span={24}>
           <Title mark level={1} style={{ textAlign: "center" }}>
             מחשבון מנדטים - בדר עופר
           </Title>
         </Col>
+      </Row>
+      <Row>
+        <Space>
+          <WhatsappShareButton
+            separator={"\n\n"}
+            children={<WhatsappIcon size={32} round={true} />}
+            title={
+              "ממליץ לך לבדוק את המחשבון המרתק הזה, מחשבון בחירות המאפשר משחק עם הנתונים וחשיפה לסודות שמאחורי המספרים.\nלמעבר לאתר:"
+            }
+            url={"https://bader-ofer-calculator.de.r.appspot.com/"}
+          />
+          <TwitterShareButton
+            separator={"\n\n"}
+            children={<TwitterIcon size={32} round={true} />}
+            title={
+              "ממליץ לך לבדוק את המחשבון המרתק הזה, מחשבון בחירות המאפשר משחק עם הנתונים וחשיפה לסודות שמאחורי המספרים.\nלמעבר לאתר:"
+            }
+            url={"https://bader-ofer-calculator.de.r.appspot.com/"}
+            related={["@HaFullstacker"]}
+          />
+          <TelegramShareButton
+            children={<TelegramIcon size={32} round={true} />}
+            url={"https://bader-ofer-calculator.de.r.appspot.com/"}
+            title={
+              "ממליץ לך לבדוק את המחשבון המרתק הזה, מחשבון בחירות המאפשר משחק עם הנתונים וחשיפה לסודות שמאחורי המספרים.\nלמעבר לאתר:"
+            }
+          />
+        </Space>
       </Row>
 
       <Row>

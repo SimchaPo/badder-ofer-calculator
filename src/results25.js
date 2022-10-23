@@ -26,6 +26,7 @@ export const results = [
     name: "יהדות התורה והשבת אגודת ישראל – דגל התורה",
     mandatim: 0,
     percent: "0%",
+    odafim: "שס",
     amount: 0,
   },
   {
@@ -68,6 +69,7 @@ export const results = [
     name: "הציונות הדתית בראשות בצלאל סמוטריץ' ועוצמה יהודית בראשות איתמר בן גביר",
     mandatim: 0,
     percent: "0%",
+    odafim: "מחל",
     amount: 0,
   },
   {
@@ -132,6 +134,7 @@ export const results = [
     name: "הליכוד בהנהגת בנימין נתניהו לראשות הממשלה",
     mandatim: 0,
     percent: "0%",
+    odafim: "ט",
     amount: 0,
   },
   {
@@ -267,6 +270,7 @@ export const results = [
     name: 'התאחדות הספרדים שומרי תורה תנועתו של מרן הרב עובדיה יוסף זצ"ל',
     mandatim: 0,
     percent: "0%",
+    odafim: "ג",
     amount: 0,
   },
   {
