@@ -44,10 +44,11 @@ export const columns = [
     title: "אחוז",
     key: "totalPercent",
     render: (record) => {
-      const recFixed = (100 * record.totalPercent).toFixed(2);
-      const originRecFixed = (100 * record.origin.totalPercent).toFixed(2);
+      const recFixed = parseInt(record.totalPercent * 100 * 100) / 100;
+      const originRecFixed =
+        parseInt(record.origin.totalPercent * 100 * 100) / 100;
       if (recFixed === originRecFixed) return `${recFixed}%`;
-      let dis = (recFixed - originRecFixed).toFixed(2);
+      let dis = parseInt((recFixed - originRecFixed) * 100) / 100;
 
       return (
         <>

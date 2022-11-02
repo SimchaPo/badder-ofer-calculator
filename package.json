@@ -7,6 +7,10 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.23.3",
+    "axios": "^1.1.3",
+    "cors": "^2.8.5",
+    "nodemon": "^2.0.20",
+    "puppeteer": "^19.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -15,10 +19,13 @@
   },
   "scripts": {
     "app-deploy": "gcloud app deploy -q --project bader-ofer-calculator",
-    "start": "react-scripts start",
+    "run-deploy": "gcloud run deploy  --project bader-ofer-calculator --source . ",
+    "start-react": "react-scripts start",
+    "start": "nodemon src/server/index.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dockerBUild": "gcloud builds submit --tag gcr.io/bader-ofer-calculator/docker-imag --project bader-ofer-calculator"
   },
   "eslintConfig": {
     "extends": [

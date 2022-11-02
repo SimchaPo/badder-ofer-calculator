@@ -1,6 +1,7 @@
 import "./App.css";
 import "antd/dist/antd.min.css";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Table,
   ConfigProvider,
@@ -11,7 +12,6 @@ import {
   Radio,
   Button,
   Card,
-  Collapse,
   Space,
 } from "antd";
 import { columns } from "./columns";
@@ -26,18 +26,19 @@ import {
   TelegramShareButton,
   TelegramIcon,
 } from "react-share";
+import { config } from "./Constants";
 
 const { Title } = Typography;
 const { Grid } = Card;
-const { Panel } = Collapse;
 
 function App() {
   const [results, setResults] = useState([]);
   const [editTable, setEditTable] = useState(false);
   const [calculatedResults, setCalculatedResults] = useState([]);
   const [originCalculatedResults, setOriginCalculatedResults] = useState([]);
-  const [radioValue, setRadioValue] = useState(24);
+  const [radioValue, setRadioValue] = useState(25);
   const [changeOrigin, setChangeOrigin] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     switch (radioValue) {
@@ -81,12 +82,32 @@ function App() {
     setChangeOrigin(false);
   }, [results]);
 
+  const serverUrl = config.url.SERVER_URL;
   const handleSetResult = ({ results }) => {
-    setResults(
-      results.map((r) => {
-        return { ...r, key: r.letters };
+    setLoading(true);
+    axios
+      .get(`${serverUrl}/getData`, {
+        params: { website: radioValue },
       })
-    );
+      .then((res) => {
+        console.log(res.data);
+        const dataFromSite = res.data;
+        results = results.map((res) => {
+          const amount = parseInt(
+            dataFromSite
+              .find((d) => d.letters === res.letters)
+              ?.amount.replaceAll(",", "") || res.amount
+          );
+          return { ...res, amount };
+        });
+        console.log(results);
+        setResults(
+          results.map((r) => {
+            return { ...r, key: r.letters };
+          })
+        );
+        setLoading(false);
+      });
   };
 
   const onChangeResults = (e) => {
@@ -144,11 +165,14 @@ function App() {
             <Spin />
           ) : (
             <ConfigProvider direction="rtl">
+              <Title level={4} style={{ textAlign: "center" }}>
+                המידע נשאב בזמן אמת מאתר התוצאות הרשמי
+              </Title>
               <Row>
                 <Col>
                   <Radio.Group
                     name="radiogroup"
-                    disabled={editTable}
+                    disabled={editTable || loading}
                     value={radioValue}
                     onChange={onChangeResults}
                     style={{ textAlign: "center" }}
@@ -192,6 +216,7 @@ function App() {
                       columns={columns}
                       pagination={false}
                       rowKey={(r) => r.letters}
+                      loading={loading}
                     />
                   </Col>
                 )}

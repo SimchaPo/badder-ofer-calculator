@@ -9,7 +9,7 @@ export const calculate = (localResults) => {
     return localResults;
   }
   // achuz hachsaima
-  let b = (a * 3.25) / 100;
+  let b = a * 0.0325;
   // didnt pass
   let c = localResults
     .filter((res) => res.amount < b)
@@ -24,14 +24,14 @@ export const calculate = (localResults) => {
   let e = d / 120;
 
   let f = localResults.map((res) => res.amount);
-  let g = f.map((fn) => (fn > b ? Math.floor(fn / e) : 0));
+  let g = f.map((fn) => (fn >= b ? Math.floor(fn / e) : 0));
 
   localResults = localResults.map((lres) => {
     return {
       ...lres,
-      g: lres.amount > b ? Math.floor(lres.amount / e) : 0,
+      g: lres.amount >= b ? Math.floor(lres.amount / e) : 0,
       totalPercent: lres.amount / a || 0,
-      beforeBadderOfer: lres.amount > b ? Math.floor(lres.amount / e) : 0,
+      beforeBadderOfer: lres.amount >= b ? Math.floor(lres.amount / e) : 0,
     };
   });
 
@@ -149,11 +149,12 @@ export const calculate = (localResults) => {
       localResults[lr1Index] = lr1;
     });
 
-  // localResults
-  //   .filter((res) => res.amount < b)
-  //   .forEach((res) => {
-  //     console.log(res.letters, (3.25 / 100) * (a - res.amount));
-  //   });
+  localResults.forEach((lr, index) => {
+    if (lr.amount >= b) return;
+    const x = (10000 / 9675) * (0.0325 * a - lr.amount);
+    lr.farnes = Math.floor(x + 1);
+    localResults[index] = lr;
+  });
 
   localResults = localResults.map((lr) => {
     let total = lr.g;
