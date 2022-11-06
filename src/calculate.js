@@ -1,4 +1,4 @@
-export const calculate = (localResults) => {
+export const calculate = (localResults, blockPercent = 0.0325) => {
   // total good votes
   let a = localResults.reduce((a, b) => a + b.amount, 0);
   if (a <= 0) {
@@ -9,7 +9,7 @@ export const calculate = (localResults) => {
     return localResults;
   }
   // achuz hachsaima
-  let b = a * 0.0325;
+  let b = a * blockPercent;
   // didnt pass
   let c = localResults
     .filter((res) => res.amount < b)
@@ -151,7 +151,7 @@ export const calculate = (localResults) => {
 
   localResults.forEach((lr, index) => {
     if (lr.amount >= b) return;
-    const x = (10000 / 9675) * (0.0325 * a - lr.amount);
+    const x = (blockPercent * a - lr.amount) / (1 - blockPercent);
     lr.farnes = Math.floor(x + 1);
     localResults[index] = lr;
   });

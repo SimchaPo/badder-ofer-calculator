@@ -13,6 +13,7 @@ import {
   Button,
   Card,
   Space,
+  InputNumber,
 } from "antd";
 import { columns } from "./columns";
 import { calculate } from "./calculate";
@@ -39,6 +40,7 @@ function App() {
   const [radioValue, setRadioValue] = useState(25);
   const [changeOrigin, setChangeOrigin] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [blockPercent, setBlockPercent] = useState(0.0325);
 
   useEffect(() => {
     switch (radioValue) {
@@ -64,13 +66,14 @@ function App() {
 
   useEffect(() => {
     if (!results?.length > 0) return;
-    let firstCalculatedResults = calculate(results);
+    let firstCalculatedResults = calculate(results, blockPercent);
     let resWithOutOdafim = calculate(
       results.map((r) => {
         const { odafim, ...r2 } = r;
 
         return r2;
-      })
+      }),
+      blockPercent
     );
 
     firstCalculatedResults = firstCalculatedResults.map((r, index) => {
@@ -80,7 +83,7 @@ function App() {
     setCalculatedResults(firstCalculatedResults);
     changeOrigin && setOriginCalculatedResults(firstCalculatedResults);
     setChangeOrigin(false);
-  }, [results]);
+  }, [results, blockPercent]);
 
   const serverUrl = config.url.SERVER_URL;
   const handleSetResult = ({ results }) => {
@@ -100,7 +103,6 @@ function App() {
           );
           return { ...res, amount };
         });
-        console.log(results);
         setResults(
           results.map((r) => {
             return { ...r, key: r.letters };
@@ -186,11 +188,28 @@ function App() {
                 </Col>
               </Row>
               <Row>
-                <Col>
+                <Space>
                   <Button onClick={() => setEditTable(!editTable)}>
                     {editTable ? "שמור" : "ערוך"}
                   </Button>
-                </Col>
+                  <InputNumber
+                    value={100 * blockPercent}
+                    min={100 / 120}
+                    max={10}
+                    step={0.05}
+                    formatter={(value) => parseFloat(value).toPrecision(3)}
+                    onChange={(value) =>
+                      setBlockPercent(Number((value / 100).toPrecision(3)))
+                    }
+                    readOnly={!editTable}
+                    addonBefore={"אחוז החסימה"}
+                    style={{
+                      width: 200,
+                    }}
+                    required
+                    prefix={"%"}
+                  />
+                </Space>
               </Row>
               <Row>
                 {editTable ? (

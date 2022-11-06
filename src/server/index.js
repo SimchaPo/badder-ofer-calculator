@@ -23,7 +23,9 @@ app.use(function (req, res, next) {
 let browserInstance = browserObject.startBrowser();
 
 app.get("/getData", async function (req, res) {
-  if (!browserInstance) browserInstance = await browserObject.startBrowser();
+  let browser = await browserInstance;
+  if (!browser?.isConnected()) browserInstance = browserObject.startBrowser();
+  console.log(browserInstance);
   let website = `https://votes${req.query.website}.bechirot.gov.il/`;
   let data;
   try {
